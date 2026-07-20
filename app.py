@@ -109,11 +109,16 @@ def run_pipeline(user_input):
         target = args["target"]
         amount = args["amount"]
         _, _, _, result = get_exchange_rate(base, target, amount)
-        st.success(f"✅  {base} {amount}  →  {target} {result}")
+        answer = f"{base} {amount} → {target} {result}"
+        st.success(f"✅  {answer}")
+        return answer
     elif finish_reason == "stop":
-        st.info(f"ℹ️  {response.choices[0].message.content}")
+        answer = response.choices[0].message.content
+        st.info(f"ℹ️  {answer}")
+        return answer
     else:
         st.warning("Unexpected response from model.")
+        return "Unexpected response from model."
 
 
 # --- Streamlit UI ---
