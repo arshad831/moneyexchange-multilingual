@@ -6,6 +6,7 @@ import streamlit as st
 from openai import OpenAI
 from dotenv import load_dotenv
 from langsmith import traceable
+from langsmith.wrappers import wrap_openai        # ← add this line
 
 load_dotenv()
 
@@ -16,10 +17,10 @@ EXCHANGERATE_API_KEY = os.environ["EXCHANGERATE_API_KEY"]  # Codespaces secret n
 endpoint = "https://models.inference.ai.azure.com"
 model_name = "gpt-4o-mini"
 
-client = OpenAI(
+client = wrap_openai(OpenAI(                       # ← add wrap_openai(
     base_url=endpoint,
     api_key=GITHUB_TOKEN,
-)
+))                                                 # ← add one )
 
 # --- LangSmith tracing (optional) ---
 os.environ["LANGCHAIN_TRACING_V2"] = os.getenv("LANGCHAIN_TRACING_V2", "true")
